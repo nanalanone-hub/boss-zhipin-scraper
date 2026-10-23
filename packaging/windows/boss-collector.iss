@@ -32,7 +32,7 @@ Name: "chinesesimplified"; MessagesFile: "{#SourcePath}\ChineseSimplified.isl"
 Name: "desktopicon"; Description: "创建桌面快捷方式"; GroupDescription: "附加图标："
 
 [Files]
-Source: "{#RepoRoot}dist\BossCollector\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallfiles
+Source: "{#RepoRoot}dist\BossCollector\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\BossCollector.exe"

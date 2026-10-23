@@ -320,6 +320,11 @@ sys.exit(0)
             iss_text,
         )
         self.assertNotIn(r"compiler:Languages\ChineseSimplified.isl", iss_text)
+        self.assertIn(
+            "Flags: ignoreversion recursesubdirs createallsubdirs",
+            iss_text,
+        )
+        self.assertNotIn("createallfiles", iss_text)
         self.assertIn("[LangOptions]", messages_text)
         self.assertIn("LanguageName=简体中文", messages_text)
         self.assertIn("[CustomMessages]", messages_text)
