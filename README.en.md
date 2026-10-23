@@ -46,8 +46,21 @@ python3 scripts/job_summary.py
 
 Right after scraping you get: salary ranges, experience requirements, top skill keywords, and a job-application optimization prompt. The prompt is based solely on the scraped job data — it never reads your local résumé file and never scores personal-job match.
 
+## 🖥️ Standalone Windows Desktop Tool (Experimental)
+
+For Windows users who do not want to install Python, Git, or dependency packages, the repository now includes a local desktop product layer (`boss_tool/`). It can be packaged as a `BossCollector-Setup-*.exe` installer and a portable ZIP.
+
+- **Supported systems:** Windows 10/11 x64. Microsoft Edge or Google Chrome must already be installed; the package does not bundle a browser.
+- **Workflow:** open the local panel → launch the dedicated browser and log in to BOSS manually → create a collection task → start with one click. Tasks support title filters, search filters, long-lived history deduplication, and JD scraping only for newly seen jobs.
+- **Local data:** for the installed version, configuration is stored under `%LOCALAPPDATA%\BossCollector\` and results under `Documents\BossCollector\`. The portable build keeps everything in its local `data\` folder. Accounts, cookies, and collected results are never uploaded.
+- **Compliance boundary:** the tool does not store or fill in passwords, bypass SMS/slider/security checks, or provide proxy pools, fingerprint spoofing, or aggressive retries. The first package is unsigned, so SmartScreen may show an “unknown publisher” warning.
+- **Build:** PyInstaller + Inno Setup, with the GitHub Actions workflow `.github/workflows/windows-desktop.yml`. Release builds will be attached to GitHub Releases; branch builds can be downloaded from Actions artifacts.
+
+See [`packaging/windows/README.md`](./packaging/windows/README.md) for installation, data directories, portable migration, and troubleshooting details (Chinese only for now). Real BOSS login and scraping are intentionally not run in CI; they must be manually verified at low frequency on a clean Windows machine.
+
 ## ✨ Features
 
+- Experimental standalone Windows desktop app: installer/portable build, multi-task panel, system tray, and local history deduplication (no Python installation required)
 - Plaintext salary (API mode, bypasses font-based obfuscation)
 - Boss activity status as a separate field (`boss_active_status`): list maps `bossOnline`→"在线"; detail can provide finer labels like "刚刚活跃"
 - Cross-run new-job flag (`is_new`): every job carries a boolean marking whether it is new to this run (also shown as 🆕 in the terminal); the baseline defaults to the most recent prior result with the same keyword and city whose filename date is before today; multiple runs on the same day fold into one round; use `--diff-base` to override

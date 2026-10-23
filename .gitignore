@@ -48,3 +48,12 @@ Thumbs.db
 !AGENTS.md
 
 ./zcode
+
+# Desktop tool generated assets/build outputs
+assets/boss-collector.ico
+assets/boss-collector.png
+build/
+dist/
+*.spec.bak
+.pyinstaller/
+/*.spec

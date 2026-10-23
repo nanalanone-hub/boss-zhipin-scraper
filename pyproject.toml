@@ -20,18 +20,27 @@ all = [
     "websocket-client>=1.6.0,<2.0.0",
     "requests>=2.28.0,<3.0.0",
 ]
+desktop = [
+    "flask>=3.0.0,<4.0.0",
+    "waitress>=3.0.0,<4.0.0",
+    "pystray>=0.19.5,<1.0.0",
+    "pillow>=10.0.0,<12.0.0",
+]
+build = [
+    "pyinstaller>=6.0.0,<7.0.0",
+]
 
 [project.scripts]
-# 模块路径对应 [tool.hatch.build.targets.wheel] 的 packages=["scripts"]，
-# 安装后顶层包名为 scripts，故入口是 scripts.boss_cdp_raw:main
+# boss-scraper 入口对应 scripts.boss_cdp_raw:main；boss-tool 入口对应桌面产品层 boss_tool.app:main
 boss-scraper = "scripts.boss_cdp_raw:main"
 boss-summary = "scripts.job_summary:main"
+boss-tool = "boss_tool.app:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["scripts"]
+packages = ["scripts", "boss_tool"]
 # 城市码表 data/city_codes.json 打进 wheel，pip install 后也能读到（见 issue #24）
-force-include = { "data/city_codes.json" = "data/city_codes.json" }
+force-include = { "data/city_codes.json" = "data/city_codes.json", "boss_tool/static" = "boss_tool/static", "boss_tool/task_schema.json" = "boss_tool/task_schema.json" }

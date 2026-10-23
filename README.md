@@ -48,8 +48,21 @@ python3 scripts/job_summary.py
 
 抓完直接拿到：薪资分布、经验要求、高频技能词、求职材料优化提示词。提示词只基于岗位数据，不读取本地简历文件，也不给岗位算个人匹配分。
 
+## 🖥️ Windows 独立桌面工具（实验性）
+
+面向不想安装 Python、Git 或依赖包的 Windows 用户，仓库新增了本地桌面产品层 `boss_tool/`，可构建为 `BossCollector-Setup-*.exe` 安装包和免安装便携版 ZIP。
+
+- **支持系统**：Windows 10/11 x64；电脑需已安装 Microsoft Edge 或 Google Chrome，安装包不捆绑浏览器。
+- **使用方式**：双击打开本地面板 → 启动专用浏览器并手动登录 BOSS → 新建采集任务 → 一键开始；任务支持标题过滤、筛选条件、长期历史去重和仅对新增岗位抓取 JD。
+- **数据本地保存**：安装版配置位于 `%LOCALAPPDATA%\BossCollector\`，结果位于 `Documents\BossCollector\`；便携版全部写入软件目录的 `data\` 文件夹。软件不上传账号、Cookie 或采集结果。
+- **合规边界**：不保存或代填账号密码，不绕过短信、滑块或安全验证，不提供代理池、指纹伪造或高频重试。首版安装包不签名，SmartScreen 可能提示“未知发布者”。
+- **构建方式**：使用 PyInstaller + Inno Setup，GitHub Actions 工作流为 `.github/workflows/windows-desktop.yml`；正式发版后可从 GitHub Releases 下载，分支开发阶段可从 Actions artifacts 下载。
+
+更多安装、数据目录、便携版迁移和故障排查说明见 [`packaging/windows/README.md`](./packaging/windows/README.md)。真实 BOSS 登录和采集不进入 CI，需在干净 Windows 机器上人工低频验收。
+
 ## ✨ 特性
 
+- 实验性 Windows 独立桌面工具：安装包/便携版、多任务面板、系统托盘、本地历史去重（无需安装 Python）
 - 明文薪资（API 模式，绕过字体反爬）
 - Boss 活跃状态独立字段（`boss_active_status`）：列表兼容 `bossOnline`→「在线」，详情可得到「刚刚活跃」等更细状态
 - 跨轮新增标记（`is_new`）：每条岗位带布尔字段标识「是否为本次新增」（终端同步以 🆕 显示），基准自动取同关键词同城市、日期早于本轮的最近一份结果；同一天多轮抓取折叠为一轮，`--diff-base` 可显式指定

@@ -8,6 +8,9 @@
 
 ## 未发布
 
+### 新增
+- 新增实验性 Windows 独立桌面工具 `boss_tool/`：本机 Flask/Waitress 面板 + 系统托盘 + Edge/Chrome `--app` 无地址栏窗口，支持多任务配置、标题过滤、长期历史去重、仅新增岗位抓 JD、中文 CSV、任务导入导出、安装版/便携版本地数据目录；新增 PyInstaller、Inno Setup 构建脚本和 GitHub Actions Windows 打包工作流。桌面层只调用现有核心抓取程序，不修改 BOSS 登录探测、CDP 抓取或安全验证处理链路。
+
 ### 变更
 - README 双语新增 skills.sh 一键安装方式：`npx skills add eatmoreduck/boss-zhipin-scraper`。skills.sh 已收录本技能，Agent Skills 兼容 agent（Claude Code、Codex、Gemini CLI、Cursor 等）可一条命令安装技能形态（SKILL.md、脚本、城市码表随技能分发）；另补 ClawHub（OpenClaw 生态技能注册表）安装方式：`npx clawhub@latest install @eatmoreduck/boss-zhipin-scraper`
 - 新增 Issue 标签约定（#58）：`CONTRIBUTING.md` 增加标签语义表与打标原则（`wontfix`/`invalid` 关闭须留理由），`AGENTS.md` 补 issue 分诊打标指引；开放 issue 已完成首轮打标

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BOSS采集任务",
+  "type": "object",
+  "required": [
+    "name",
+    "keyword",
+    "city"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "keyword": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "city": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "pages": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 1
+    },
+    "fetch_detail": {
+      "type": "boolean",
+      "default": false
+    },
+    "max_details": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 2
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "csv",
+        "json"
+      ],
+      "default": "csv"
+    },
+    "analysis": {
+      "type": "boolean",
+      "default": true
+    },
+    "close_chrome": {
+      "type": "boolean",
+      "default": false
+    },
+    "allow_dom_fallback": {
+      "type": "boolean",
+      "default": false
+    },
+    "scale": {
+      "type": "string",
+      "default": ""
+    },
+    "stage": {
+      "type": "string",
+      "default": ""
+    },
+    "salary": {
+      "type": "string",
+      "default": ""
+    },
+    "experience": {
+      "type": "string",
+      "default": ""
+    },
+    "degree": {
+      "type": "string",
+      "default": ""
+    },
+    "industry": {
+      "type": "string",
+      "default": ""
+    },
+    "title_include": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "title_exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "export_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "detail_export_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "chinese_header": {
+      "type": "boolean",
+      "default": true
+    },
+    "changed_policy": {
+      "type": "string",
+      "enum": [
+        "warn",
+        "stop"
+      ],
+      "default": "warn"
+    }
+  }
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOSS采集助手</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>BOSS采集助手</h1>
+      <p>本地任务配置 · 低频采集 · 跨次去重</p>
+    </div>
+    <div class="global-settings">
+      <label>浏览器
+        <select id="browserChoice"><option value="edge">Microsoft Edge</option><option value="chrome">Google Chrome</option><option value="auto">自动选择</option></select>
+      </label>
+      <label>CDP 端口 <input id="cdpPort" type="number" min="1024" max="65535" value="9222" /></label>
+      <div class="actions">
+        <button id="browserDetect" type="button">检测浏览器</button>
+        <button id="browserStart" type="button" class="important" disabled>启动并登录</button>
+        <button id="browserCheck" type="button" disabled>检查登录</button>
+        <button id="browserStop" type="button" class="secondary" disabled>关闭专用浏览器</button>
+      </div>
+    </div>
+  </header>
+  <main class="layout">
+    <section class="card tasks">
+      <div class="card-title"><h2>采集任务</h2><button id="newTask">新建任务</button></div>
+      <div id="taskList" class="task-list"></div>
+    </section>
+    <section class="card editor">
+      <h2>任务配置</h2>
+      <form id="taskForm">
+        <input type="hidden" name="id" />
+        <label>任务名称<input name="name" required maxlength="60" placeholder="例如：GEO优化师上海" /></label>
+        <div class="grid">
+          <label>关键词<input name="keyword" required maxlength="100" placeholder="AI Agent" /></label>
+          <label>城市<input name="city" required maxlength="40" value="上海" /></label>
+          <label>页数<input name="pages" type="number" min="1" max="10" value="1" /></label>
+          <label>JD 上限<input name="max_details" type="number" min="0" max="100" value="2" /></label>
+        </div>
+        <div class="grid">
+          <label>公司规模<input name="scale" placeholder="301-306，可空" /></label>
+          <label>融资阶段<input name="stage" placeholder="801-808，可空" /></label>
+          <label>薪资<input name="salary" placeholder="402-407，可空" /></label>
+          <label>经验<input name="experience" placeholder="101-108，可空" /></label>
+          <label>学历<input name="degree" placeholder="202-209，可空" /></label>
+          <label>行业<input name="industry" placeholder="1001-1010，可空" /></label>
+        </div>
+        <div class="grid">
+          <label>标题包含<input name="title_include" placeholder="逗号分隔" /></label>
+          <label>标题排除<input name="title_exclude" placeholder="销售,客服,实习" /></label>
+          <label>条件变化<select name="changed_policy"><option value="warn">警告后继续</option><option value="stop">停止</option></select></label>
+        </div>
+        <div class="grid full">
+          <label>列表导出字段（逗号分隔）<textarea name="export_fields" rows="2">title,salary,location,tags,boss_name,boss_active_status,company_scale,company_industry,skills,job_link,is_new</textarea></label>
+          <label>详情导出字段（逗号分隔）<textarea name="detail_export_fields" rows="2">title,company,salary,location,skill_tags,jd,job_link</textarea></label>
+        </div>
+        <div class="checks">
+          <label><input type="checkbox" name="fetch_detail" /> 抓取新增岗位 JD</label>
+          <label><input type="checkbox" name="analysis" checked /> 输出统计</label>
+          <label><input type="checkbox" name="chinese_header" checked /> 中文 CSV 表头</label>
+          <label><input type="checkbox" name="close_chrome" /> 完成后关闭浏览器</label>
+          <label><input type="checkbox" name="allow_dom_fallback" /> 允许 DOM 降级（不建议）</label>
+        </div>
+        <div class="actions">
+          <button type="submit">保存任务</button>
+          <button type="button" id="runTask" disabled>开始采集</button>
+          <button type="button" id="cancelTask">取消</button>
+          <button type="button" id="duplicateTask" class="secondary">复制任务</button>
+          <button type="button" id="exportTask" class="secondary">导出 JSON</button>
+          <button type="button" id="importTask" class="secondary">导入 JSON</button>
+          <button type="button" id="deleteTask" class="danger">删除任务</button>
+          <button type="button" id="openFolder">打开结果目录</button>
+          <button type="button" id="openCsv" class="secondary">打开最新 CSV</button>
+          <button type="button" id="openJson" class="secondary">打开最新 JSON</button>
+          <button type="button" id="openDetails" class="secondary">打开最新详情 CSV</button>
+          <button type="button" id="resetForm" class="secondary">清空</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden />
+        </div>
+      </form>
+    </section>
+    <section class="card output">
+      <h2>运行状态</h2>
+      <pre id="status">准备就绪</pre>
+      <pre id="logs" class="logs"></pre>
+    </section>
+  </main>
+  <div id="complianceModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>使用前确认</h2>
+      <p>本工具只在本机运行，不上传账号、Cookie 或采集结果。请使用你本人已登录的 BOSS 账号，保持低频采集。</p>
+      <p>遇到登录失效、短信、滑块或安全校验时，必须在专用浏览器中手动处理；本工具不会绕过验证码，也不提供代理池或指纹伪造。</p>
+      <button id="acceptCompliance">我已理解，仅用于合规的低频采集</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
