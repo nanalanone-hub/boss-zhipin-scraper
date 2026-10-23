@@ -309,6 +309,21 @@ sys.exit(0)
         self.assertIn(["fake-core", "--setup-edge", "--cdp-port", "9333", "--no-wait-login"], calls)
         self.assertIn(["fake-core", "--stop-edge"], calls)
 
+    def test_inno_setup_bundles_simplified_chinese_messages(self):
+        project_root = Path(__file__).resolve().parents[1]
+        packaging_dir = project_root / "packaging" / "windows"
+        iss_text = (packaging_dir / "boss-collector.iss").read_text(encoding="utf-8-sig")
+        messages_text = (packaging_dir / "ChineseSimplified.isl").read_text(encoding="utf-8")
+
+        self.assertIn(
+            r'Name: "chinesesimplified"; MessagesFile: "{#SourcePath}\ChineseSimplified.isl"',
+            iss_text,
+        )
+        self.assertNotIn(r"compiler:Languages\ChineseSimplified.isl", iss_text)
+        self.assertIn("[LangOptions]", messages_text)
+        self.assertIn("LanguageName=简体中文", messages_text)
+        self.assertIn("[CustomMessages]", messages_text)
+
 
 @unittest.skipUnless(__import__("importlib.util").util.find_spec("flask"), "Flask is required for API tests")
 class ServerApiTestCase(unittest.TestCase):
