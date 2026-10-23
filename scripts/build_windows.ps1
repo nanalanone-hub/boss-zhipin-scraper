@@ -23,9 +23,9 @@ $Common = @(
 )
 
 Write-Host "Building console core..."
-$coreArgs = @(
-    "-m", "PyInstaller",
-    @Common,
+$coreArgs = @("-m", "PyInstaller")
+$coreArgs += $Common
+$coreArgs += @(
     "--name", "boss-core",
     "--console",
     "boss_tool/core_launcher.py"
@@ -34,9 +34,9 @@ python @coreArgs
 if ($LASTEXITCODE -ne 0) { throw "Core PyInstaller build failed" }
 
 Write-Host "Building desktop app..."
-$appArgs = @(
-    "-m", "PyInstaller",
-    @Common,
+$appArgs = @("-m", "PyInstaller")
+$appArgs += $Common
+$appArgs += @(
     "--name", "BossCollector",
     "--windowed",
     "--icon", "assets/boss-collector.ico",
@@ -68,7 +68,7 @@ if (-not $isccPath) {
     $candidate = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
     if (Test-Path $candidate) { $isccPath = $candidate }
 }
-if (-not $isccPath) { throw "未找到 Inno Setup Compiler (ISCC.exe)。请在 windows-latest 或已安装 Inno Setup 6 的环境构建。" }
+if (-not $isccPath) { throw "Inno Setup Compiler (ISCC.exe) was not found. Use windows-latest or install Inno Setup 6." }
 & $isccPath "/DAppVersion=$Version" "packaging/windows/boss-collector.iss"
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed: $LASTEXITCODE" }
 
